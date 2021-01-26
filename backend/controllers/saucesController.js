@@ -15,7 +15,7 @@ exports.createSauce = (req, res, next) => {
         .catch(error => res.status(400).json({error}));
 };
 
-exports.modifyVoteSauce = (req, res, next) => {
+exports.likeSauces = (req, res, next) => {
     Sauce.findOne({_id: req.params.id})           // on récupère les informations de la sauce
         .then(sauce => {
             switch (req.body.like) {                // selon la valeur recue pour 'like' dans la requête
