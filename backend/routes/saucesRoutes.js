@@ -9,6 +9,6 @@ router.put('/:id', auth, multerImage, controllerSauces.modifySauces);
 router.delete('/:id', auth, controllerSauces.deleteSauces);
 router.get('/:id', auth, controllerSauces.getIdSauces);
 router.get('/', auth, controllerSauces.getAllSauces);
-router.post('/:id/like', auth, controllerSauces.modifyVoteSauce);
+router.post('/:id/like', auth, controllerSauces.likeSauces);
 
 module.exports = router;

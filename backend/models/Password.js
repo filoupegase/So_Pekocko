@@ -3,11 +3,14 @@ const passwordValidator = require('password-validator');        // importation d
 const passwordSchema = new passwordValidator();     // Schéma de mot de passe
 
 passwordSchema
-    .is().min(8)                                    // Longueur min : 8
-    .has().uppercase()                              // Doit avoir au moins une majuscule
-    .has().lowercase()                              // Doit avoir au moins une minuscule
-    .has().digits()                                 // Doit avoir au moins un chiffre
-    .has().not().spaces()                           // Ne doit pas avoir d'espaces
+    .is().min(8)
+    .is().max(42)
+    .has().uppercase()
+    .has().lowercase()
+    .has().digits()
+    .has().not().spaces()
     .is().not().oneOf(['Passw0rd', 'Password123', 'Admin123', 'Adminadmin']); // Blacklist de certain mot de passe
+
+//console.log(passwordSchema.validate('joke', { list: true }));
 
 module.exports = passwordSchema;
