@@ -1,15 +1,14 @@
 const Sauce = require('../models/Sauces');
 const fs = require('fs');
 
-
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce)   // on analyse la chaine de caractère de la requête que l'on transform en objet
     delete sauceObject._id;                          //Suppression de l'id venant du frontend
     const sauce = new Sauce({
         ...sauceObject,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,    // on créé une chaine complexe qui prend le protocol, le host du serveur, le dossier images et le nom du fichier
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,    // on créé une chaine complexe qui prend le protocol, le port du serveur, et dossier images, et le nom du fichier
     });
-    console.log(sauce);
+    //console.log(sauce);
     sauce.save()
         .then(() => res.status(201).json({message: 'Sauce enregistrée !'}))
         .catch(error => res.status(400).json({error}));
@@ -64,22 +63,6 @@ exports.likeSauces = (req, res, next) => {
         .catch(error => res.status(500).json({error}))
 };
 
-// récupère une sauce avec son Id
-exports.getIdSauces = (req, res, next) => {
-    Sauce.findOne({
-        _id: req.params.id
-    }).then(
-        (thing) => {
-            res.status(200).json(thing);
-        }
-    ).catch(
-        (error) => {
-            res.status(404).json({
-                error: error
-            });
-        }
-    );
-};
 
 // modifier une sauce Update
 exports.modifySauces = (req, res, next) => {
@@ -114,8 +97,22 @@ exports.deleteSauces = (req, res, next) => {
         .catch(error => res.status(500).json({error}));
 };
 
+// récupère une sauce avec son Id
+exports.getIdSauces = (req, res, next) => {
+    Sauce.findOne({
+        _id: req.params.id
+    })                                                     // on trouve les objets dans la base de donnée
+        .then(
+        (sauce) => {
+            res.status(200).json(sauce);                     // on renvoi en format json
+        }
+    ).catch(
+        (error) => {res.status(404).json({error: error});}
+    );
+};
+
 exports.getAllSauces = (req, res, next) => {
-    Sauce.find()                                            // on trouve les objets dans la base de donnée
-        .then(sauce => res.status(200).json(sauce))         // on renvoi les objets au format json
+    Sauce.find()                                            // on trouve les objets, deja existant dans la base de donnée
+        .then(sauce => res.status(200).json(sauce))         // on renvoi en format json
         .catch(error => res.status(400).json({error}));
 };
