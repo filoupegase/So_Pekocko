@@ -20,7 +20,7 @@ exports.login = (req, res, next) => {
     User.findOne({email: req.body.email})     // on récupère l'utilisateur de la base qui correspond a l'adresse mail entrée
         .then(user => {
             if (!user) {        // si on ne reçoit pas d'utilisateur
-                return res.status(401).json({error: 'Utilisateur non trouvé !'})      // on renvoi une erreur
+                return res.status(401).json({error: 'Utilisateur non trouvé !'})     // on renvoi une erreur
             }
             bcrypt.compare(req.body.password, user.password)        // on compare le mot de passe entré avec le hash de la base de donnée
                 .then(valid => {
